@@ -3,13 +3,19 @@
     <app-shopping-edit></app-shopping-edit>
     <hr />
     <ul class="list-group">
-      <a
-        class="list-group-item"
-        style="cursor: pointer"
-        *ngFor="let ingre of ingredients"
-      >
-        {{ ingre.name }}: {{ ingre.amount }}
-      </a>
+      <div class="table-responsive">
+        <table class="table">
+          <tr
+            style="cursor: pointer"
+            *ngFor="let ingre of ingredients; let i = index"
+            (click)="onEditItem(i)"
+          >
+            <td scope="row" class="width:50">{{ i }}</td>
+            <td>{{ ingre.name }}</td>
+            <td>{{ ingre.amount }}</td>
+          </tr>
+        </table>
+      </div>
     </ul>
   </div>
 </div>

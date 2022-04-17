@@ -7,7 +7,7 @@ import { Ingredient } from '../shared/ingredient.model';
 })
 export class ShoppingListService {
   @Output() ingredientAdded = new BehaviorSubject<Ingredient[]>([]);
-
+  startedEditing = new Subject<number>();
   private ingredients: Ingredient[] = [];
 
   getIngredients(): Ingredient[] {
@@ -21,6 +21,18 @@ export class ShoppingListService {
 
   addIngredients(ingredients: Ingredient[]) {
     this.ingredients.push(...ingredients);
+    this.ingredientAdded.next(this.ingredients.slice());
+  }
+  getIngredient(index: number): Ingredient {
+    return this.ingredients[index];
+  }
+  updateIngredient(index: number, newIngredient: Ingredient) {
+    this.ingredients[index] = newIngredient;
+    this.ingredientAdded.next(this.ingredients.slice());
+  }
+
+  deleteIngredient(index: number) {
+    this.ingredients.splice(index, 1);
     this.ingredientAdded.next(this.ingredients.slice());
   }
 }
