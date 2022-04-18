@@ -5,16 +5,21 @@ import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.com
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+import { RecipeResolverService } from './recipes/recipe-resolver-service';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/recipes', pathMatch: 'full' }, //only apply if the full path ('') is empty
   {
     path: 'recipes',
     component: RecipesComponent,
+    resolve: [RecipeResolverService],
     children: [
       { path: '', component: RecipeStartComponent },
       { path: 'new', component: RecipeEditComponent }, //this will cause error because new is pared as :id. That's why it should come first in the list
-      { path: ':id', component: RecipeDetailComponent },
+      {
+        path: ':id',
+        component: RecipeDetailComponent,
+      },
       { path: ':id/edit', component: RecipeEditComponent },
     ],
   },
