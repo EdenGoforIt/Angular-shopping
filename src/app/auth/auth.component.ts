@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthData } from './auth-data';
 import { AuthService } from './auth.service';
@@ -10,13 +11,16 @@ import { AuthService } from './auth.service';
   styleUrls: ['./auth.component.css'],
 })
 export class AuthComponent {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) { }
+
   isLoginMode: boolean = true;
   isLoading: boolean = false;
   error: string = '';
+
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;
   }
+
   onSubmit(form: NgForm) {
     if (!form.valid) {
       return;
@@ -32,18 +36,14 @@ export class AuthComponent {
 
     authOb.subscribe({
       next: (authData: AuthData) => {
-        setTimeout(() => {
-          console.log(authData);
-          this.isLoading = false;
-        }, 3000);
+        this.isLoading = false;
+        this.router.navigate(['/recipes']);
       },
       error: (error) => {
         this.isLoading = false;
         this.error = error;
       },
     });
-
-
     form.reset();
   }
 }

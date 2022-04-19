@@ -28,7 +28,10 @@
         </li>
       </ul>
       <ul class="navbar-nav">
-        <li routerLinkActive="active" class="nav-item">
+        <li routerLinkActive="active" class="nav-item" *ngIf="isAuthenticated">
+          <a class="nav-link">Logout</a>
+        </li>
+        <li routerLinkActive="active" class="nav-item" *ngIf="!isAuthenticated">
           <a class="nav-link" routerLink="/auth">Login</a>
         </li>
       </ul>
