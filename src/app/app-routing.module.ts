@@ -7,11 +7,13 @@ import { RecipesComponent } from './recipes/recipes.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { RecipeResolverService } from './recipes/recipe-resolver-service';
 import { AuthComponent } from './auth/auth.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/recipes', pathMatch: 'full' }, //only apply if the full path ('') is empty
   {
     path: 'recipes',
+    canActivate: [AuthGuard],
     component: RecipesComponent,
     resolve: [RecipeResolverService],
     children: [

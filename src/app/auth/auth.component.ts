@@ -36,8 +36,8 @@ export class AuthComponent {
 
     authOb.subscribe({
       next: (authData: AuthData) => {
-        this.isLoading = false;
         this.router.navigate(['/recipes']);
+        this.isLoading = false;
       },
       error: (error) => {
         this.isLoading = false;

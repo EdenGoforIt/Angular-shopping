@@ -4,7 +4,7 @@
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li routerLinkActive="active" class="nav-item">
-          <a class="nav-link" routerLink="/recipes">Recipes</a>
+          <a class="nav-link" routerLink="/recipes" *ngIf="isAuthenticated">Recipes</a>
         </li>
         <li routerLinkActive="active" class="nav-item">
           <a class="nav-link" routerLink="/shopping-list">Shopping List</a>
