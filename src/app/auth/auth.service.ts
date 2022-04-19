@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { AuthData } from './auth-data';
 import { User } from './user.model';
@@ -9,10 +10,10 @@ export class AuthService {
   private signupUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=`;
   private signInUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=`;
   private key = `AIzaSyAPMImHcJFscgBjRqE2405tta41DUQIbsc`;
-
+  private timer: any;
   public user = new BehaviorSubject<User | null>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
   signup(email: string, password: string): Observable<AuthData> {
     return this.http
       .post<AuthData>(`${this.signupUrl}${this.key}`, {
@@ -50,7 +51,22 @@ export class AuthService {
       new Date(new Date().getHours() + 1)
     );
 
+    localStorage.setItem('user', JSON.stringify(_user));
+    this.autoLogout(3600 * 1000);
     this.user.next(_user);
+  }
+
+  autoLogin() {
+    const user: User = JSON.parse(localStorage.getItem('user')!);
+    if (!user) {
+      return;
+    }
+
+    //TODO: if token is valid
+    if (user?.token) {
+      this.autoLogout(3600 * 1000);
+      this.user.next(user);
+    }
   }
 
   private handleError(errorRes: HttpErrorResponse): Observable<any> {
@@ -71,5 +87,23 @@ export class AuthService {
     }
 
     return throwError(errorMessage.trim());
+  }
+
+  autoLogout(expirationDuration: number) {
+    this.timer = setTimeout(() => {
+      this.logout();
+    }, expirationDuration);
+  }
+
+  logout() {
+    this.user.next(null);
+    localStorage.removeItem('user');
+    this.router.navigate(['/auth']);
+
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+
+    this.timer = null;
   }
 }
