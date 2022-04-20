@@ -18,7 +18,6 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.slService.ingredientAdded.subscribe((ingredients: Ingredient[]) => {
-        console.log(ingredients);
         this.ingredients = ingredients;
       })
     );

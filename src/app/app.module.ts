@@ -16,8 +16,6 @@ import { ShoppingListService } from './shopping-list/shopping-list.service';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ShoppingListModule,
-    AuthModule,
   ],
   providers: [
     // if many services to be registered, use CoreModule and add all services there
