@@ -5,6 +5,8 @@ import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { AuthData } from './auth-data';
 import { User } from './user.model';
 
+//this will automatically change the prod mode anyway
+import { environment } from '../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private signupUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=`;
@@ -16,7 +18,7 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
   signup(email: string, password: string): Observable<AuthData> {
     return this.http
-      .post<AuthData>(`${this.signupUrl}${this.key}`, {
+      .post<AuthData>(`${this.signupUrl}${environment.firebaseAPIKey}`, {
         email,
         password,
         returnSecureToken: true,
@@ -29,7 +31,7 @@ export class AuthService {
 
   login(email: string, password: string): Observable<AuthData> {
     return this.http
-      .post<AuthData>(`${this.signInUrl}${this.key}`, {
+      .post<AuthData>(`${this.signInUrl}${environment.firebaseAPIKey}`, {
         email,
         password,
         returnSecureToken: true,
