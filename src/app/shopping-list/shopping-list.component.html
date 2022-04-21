@@ -7,7 +7,10 @@
         <table class="table">
           <tr
             style="cursor: pointer"
-            *ngFor="let ingre of ingredients; let i = index"
+            *ngFor="
+              let ingre of (ingredients | async)?.ingredients;
+              let i = index
+            "
             (click)="onEditItem(i)"
           >
             <td scope="row" class="width:50">{{ i }}</td>
