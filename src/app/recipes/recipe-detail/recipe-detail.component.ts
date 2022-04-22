@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../root.reducer';
 import { Recipe } from './../recipe.model';
 import { RecipeService } from './../recipe.service';
 import * as ShoppingListActions from '../../shopping-list/store/shopping-list.action';
+import { AppState } from '../../store/app.reducer';
 
 @Component({
   selector: 'app-recipe-detail',

@@ -1,11 +1,15 @@
 import { Injectable, Output } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { AppState } from '../store/app.reducer';
 import { Ingredient } from '../shared/ingredient.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShoppingListService {
+  constructor(private store: Store<AppState>) {}
+
   @Output() ingredientAdded = new BehaviorSubject<Ingredient[]>([]);
   startedEditing = new Subject<number>();
   private ingredients: Ingredient[] = [];
