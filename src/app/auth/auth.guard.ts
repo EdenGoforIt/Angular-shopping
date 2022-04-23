@@ -6,8 +6,10 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { AppState } from '../store/app.reducer';
 import { AuthService } from './auth.service';
 import { User } from './user.model';
 
@@ -16,7 +18,11 @@ export class AuthGuard implements CanActivate {
   /**
    *
    */
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private store: Store<AppState>
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -26,7 +32,8 @@ export class AuthGuard implements CanActivate {
     | UrlTree
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
-    return this.authService.user.pipe(
+    return this.store.select('auth').pipe(
+      map((authState) => authState.user),
       take(1),
       map((user: User | null) => {
         const userExist = !!user;
