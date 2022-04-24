@@ -5,12 +5,14 @@ export interface AuthState {
   user: User | null;
   error: string;
   loading: boolean;
+  redirect: boolean;
 }
 
 const initialState: AuthState = {
   user: null,
   error: '',
   loading: false,
+  redirect: false,
 };
 
 export function authReducer(
@@ -26,7 +28,12 @@ export function authReducer(
         _action.payload.token,
         _action.payload.expirationDate
       );
-      return { ...state, user, error: '', loading: false };
+      return {
+        ...state,
+        user,
+        error: '',
+        // loading: false
+      };
     case authAction.LOGOUT:
       return { ...state, user: null, error: '', loading: false };
 

@@ -4,7 +4,7 @@ import {
   ComponentRef,
   OnDestroy,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -30,8 +30,6 @@ export class AuthComponent implements OnDestroy, OnInit {
   private subscriptions: Subscription[] = [];
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
     private componentFactoryResolver: ComponentFactoryResolver,
     private store: Store<fromApp.AppState>
   ) {}
@@ -59,7 +57,6 @@ export class AuthComponent implements OnDestroy, OnInit {
   }
 
   onSubmit(form: NgForm) {
-
     if (!form.valid) {
       return;
     }

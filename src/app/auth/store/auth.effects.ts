@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
 import { AuthService } from '../auth.service';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AuthData } from '../auth-data';
@@ -79,22 +79,28 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.AUTO_LOGIN),
       map((): AuthActions.AuthenticateSuccess | AuthActions.NoOperation => {
-        const user: User | null = JSON.parse(
-          localStorage.getItem('user') ?? 'null'
-        );
+
+        const user: {
+          email: string;
+          idToken: string;
+          localId: string;
+          refreshToken: string;
+        } = JSON.parse(localStorage.getItem('user') ?? 'null');
 
         if (!user) {
+          //this will return default: state
           return new AuthActions.NoOperation();
           // return { type: 'DUMMY' };
         }
 
         // //TODO: if token is valid
-        if (user?.token) {
+        if (user?.refreshToken) {
           return new AuthActions.AuthenticateSuccess({
             email: user.email,
-            userId: user.id,
-            token: user.token,
+            userId: user.localId,
+            token: user.idToken,
             expirationDate: new Date(),
+            redirect: false,
           });
         }
         return new AuthActions.NoOperation();
@@ -109,7 +115,13 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.AUTHENTICATE_SUCCESS),
-        tap(() => this.router.navigate(['/']))
+        tap((authSuccessAction: AuthActions.AuthenticateSuccess) => {
+          if (authSuccessAction.payload.redirect) {
+            this.router.navigate(['/']);
+          }
+
+          this.router.navigate(['/']);
+        })
       ),
     { dispatch: false }
   );
@@ -147,6 +159,7 @@ const handleAuthentication = (
     userId: resData.localId,
     token: resData.idToken,
     expirationDate: new Date(),
+    redirect: true,
   });
 };
 
