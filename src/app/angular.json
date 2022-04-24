@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "myfirstapp": {
+    "angular-shopping-list": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/myfirstapp",
+            "outputPath": "dist/angular-shopping-list",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "myfirstapp:build:production"
+              "browserTarget": "angular-shopping-list:build:production"
             },
             "development": {
-              "browserTarget": "myfirstapp:build:development"
+              "browserTarget": "angular-shopping-list:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "myfirstapp:build"
+            "browserTarget": "angular-shopping-list:build"
           }
         },
         "test": {
@@ -106,5 +106,5 @@
       }
     }
   },
-  "defaultProject": "myfirstapp"
+  "defaultProject": "angular-shopping-list"
 }
