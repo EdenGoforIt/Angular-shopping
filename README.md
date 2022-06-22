@@ -1,6 +1,10 @@
 # angular-shopping-list
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.2.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.2. A simple shopping application with ngrx
+
+![image](https://user-images.githubusercontent.com/79078528/174927127-80f77060-2a17-43af-926f-1c0bc5b6559a.png)
+
+
 
 ## Development server
 
